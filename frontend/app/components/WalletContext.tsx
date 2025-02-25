@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { AppConfig, UserSession, showConnect } from '@stacks/connect';
+import { useConnect } from '@stacks/connect-react';
 
 interface WalletContextType {
   isConnected: boolean;
@@ -18,21 +19,10 @@ const userSession = new UserSession({ appConfig });
 export function WalletProvider({ children }: { children: ReactNode }) {
   const [isConnected, setIsConnected] = useState(false);
   const [address, setAddress] = useState<string | null>(null);
+  const { doOpenAuth } = useConnect();
 
   const connect = async () => {
-    showConnect({
-      appDetails: {
-        name: 'BitShield Insurance',
-        icon: window.location.origin + '/logo.png',
-      },
-      redirectTo: '/',
-      onFinish: () => {
-        const userData = userSession.loadUserData();
-        setAddress(userData.profile.stxAddress.mainnet);
-        setIsConnected(true);
-      },
-      userSession,
-    });
+    doOpenAuth();
   };
 
   const disconnect = () => {
