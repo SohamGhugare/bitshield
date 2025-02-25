@@ -298,9 +298,161 @@ export function Marketplace() {
         );
       case 'dashboard':
         return (
-          <div className="p-6">
-            <h2 className="text-2xl font-bold text-gray-900">Dashboard</h2>
-            {/* Add dashboard content */}
+          <div className="p-6 space-y-6">
+            {/* Stats Overview */}
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+              <div className="bg-white rounded-xl p-6 shadow-sm">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-gray-500 text-sm">Total Coverage</h3>
+                  <DollarSign className="h-5 w-5 text-bitcoin opacity-50" />
+                </div>
+                <p className="text-2xl font-bold text-gray-900 mt-2">12.45 sBTC</p>
+                <span className="text-green-600 text-sm flex items-center mt-2">
+                  <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M12 7l-5 5 1.4 1.4L12 9.8l3.6 3.6L17 12l-5-5z" />
+                  </svg>
+                  +2.5% from last month
+                </span>
+              </div>
+
+              <div className="bg-white rounded-xl p-6 shadow-sm">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-gray-500 text-sm">Active Policies</h3>
+                  <Shield className="h-5 w-5 text-bitcoin opacity-50" />
+                </div>
+                <p className="text-2xl font-bold text-gray-900 mt-2">3</p>
+                <span className="text-gray-600 text-sm mt-2 block">
+                  All policies active
+                </span>
+              </div>
+
+              <div className="bg-white rounded-xl p-6 shadow-sm">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-gray-500 text-sm">Monthly Premium</h3>
+                  <Activity className="h-5 w-5 text-bitcoin opacity-50" />
+                </div>
+                <p className="text-2xl font-bold text-gray-900 mt-2">0.0145 sBTC</p>
+                <span className="text-gray-600 text-sm mt-2 block">
+                  Next payment in 12 days
+                </span>
+              </div>
+
+              <div className="bg-white rounded-xl p-6 shadow-sm">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-gray-500 text-sm">Claims History</h3>
+                  <AlertCircle className="h-5 w-5 text-bitcoin opacity-50" />
+                </div>
+                <p className="text-2xl font-bold text-gray-900 mt-2">0</p>
+                <span className="text-green-600 text-sm mt-2 block">
+                  No active claims
+                </span>
+              </div>
+            </div>
+
+            {/* Active Policies */}
+            <div className="bg-white rounded-xl shadow-sm">
+              <div className="p-6 border-b border-gray-200">
+                <h2 className="text-xl font-semibold text-gray-900">Active Policies</h2>
+              </div>
+              <div className="p-6">
+                <div className="space-y-4">
+                  {/* Exchange Hack Protection Policy */}
+                  <div className="border border-gray-200 rounded-lg p-4">
+                    <div className="flex items-start justify-between">
+                      <div className="flex items-center gap-3">
+                        <div className="text-3xl">🛡️</div>
+                        <div>
+                          <h3 className="font-medium text-gray-900">Exchange Hack Protection</h3>
+                          <p className="text-sm text-gray-600">Coverage: 5.00 sBTC</p>
+                        </div>
+                      </div>
+                      <span className="px-2.5 py-1 bg-green-100 text-green-800 text-xs font-medium rounded-full">
+                        Active
+                      </span>
+                    </div>
+                    <div className="mt-4 flex items-center justify-between text-sm">
+                      <span className="text-gray-600">Premium: 0.005 sBTC/month</span>
+                      <span className="text-gray-600">Expires in 89 days</span>
+                    </div>
+                  </div>
+
+                  {/* Smart Contract Policy */}
+                  <div className="border border-gray-200 rounded-lg p-4">
+                    <div className="flex items-start justify-between">
+                      <div className="flex items-center gap-3">
+                        <div className="text-3xl">📝</div>
+                        <div>
+                          <h3 className="font-medium text-gray-900">Smart Contract Coverage</h3>
+                          <p className="text-sm text-gray-600">Coverage: 2.45 sBTC</p>
+                        </div>
+                      </div>
+                      <span className="px-2.5 py-1 bg-green-100 text-green-800 text-xs font-medium rounded-full">
+                        Active
+                      </span>
+                    </div>
+                    <div className="mt-4 flex items-center justify-between text-sm">
+                      <span className="text-gray-600">Premium: 0.00735 sBTC/month</span>
+                      <span className="text-gray-600">Expires in 152 days</span>
+                    </div>
+                  </div>
+
+                  {/* Wallet Recovery Policy */}
+                  <div className="border border-gray-200 rounded-lg p-4">
+                    <div className="flex items-start justify-between">
+                      <div className="flex items-center gap-3">
+                        <div className="text-3xl">🔑</div>
+                        <div>
+                          <h3 className="font-medium text-gray-900">Wallet Recovery Protection</h3>
+                          <p className="text-sm text-gray-600">Coverage: 5.00 sBTC</p>
+                        </div>
+                      </div>
+                      <span className="px-2.5 py-1 bg-green-100 text-green-800 text-xs font-medium rounded-full">
+                        Active
+                      </span>
+                    </div>
+                    <div className="mt-4 flex items-center justify-between text-sm">
+                      <span className="text-gray-600">Premium: 0.0025 sBTC/month</span>
+                      <span className="text-gray-600">Expires in 243 days</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Recent Activity */}
+            <div className="bg-white rounded-xl shadow-sm">
+              <div className="p-6 border-b border-gray-200">
+                <h2 className="text-xl font-semibold text-gray-900">Recent Activity</h2>
+              </div>
+              <div className="p-6">
+                <div className="space-y-4">
+                  <div className="flex items-center gap-4">
+                    <div className="w-2 h-2 rounded-full bg-green-500"></div>
+                    <div className="flex-1">
+                      <p className="text-gray-900">Premium Payment Processed</p>
+                      <p className="text-sm text-gray-600">0.005 sBTC for Exchange Hack Protection</p>
+                    </div>
+                    <span className="text-sm text-gray-600">2 days ago</span>
+                  </div>
+                  <div className="flex items-center gap-4">
+                    <div className="w-2 h-2 rounded-full bg-blue-500"></div>
+                    <div className="flex-1">
+                      <p className="text-gray-900">Policy Renewed</p>
+                      <p className="text-sm text-gray-600">Smart Contract Coverage extended for 6 months</p>
+                    </div>
+                    <span className="text-sm text-gray-600">5 days ago</span>
+                  </div>
+                  <div className="flex items-center gap-4">
+                    <div className="w-2 h-2 rounded-full bg-orange-500"></div>
+                    <div className="flex-1">
+                      <p className="text-gray-900">Coverage Increased</p>
+                      <p className="text-sm text-gray-600">Wallet Recovery Protection increased to 5.00 sBTC</p>
+                    </div>
+                    <span className="text-sm text-gray-600">1 week ago</span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         );
       case 'claims':
