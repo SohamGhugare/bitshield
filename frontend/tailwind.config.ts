@@ -11,6 +11,10 @@ export default {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        bitcoin: {
+          DEFAULT: '#F7931A',
+          hover: '#E88A19'
+        }
       },
     },
   },
