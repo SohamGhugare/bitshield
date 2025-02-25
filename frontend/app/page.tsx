@@ -11,11 +11,19 @@ export default function Home() {
     <div className="min-h-screen bg-gray-50">
       <div className="container mx-auto px-4 py-16">
         {/* Hero Section */}
-        <div className="text-center">
-          <h1 className="text-5xl font-bold text-gray-900 mb-6">
-            Decentralized Insurance on <span className="text-bitcoin">sBTC</span>
+        <div className="text-center max-w-6xl mx-auto">
+          <h1 className="flex flex-col gap-6 mb-10">
+            <span className="text-5xl md:text-6xl lg:text-7xl font-extrabold text-gray-900 tracking-tight">
+              Decentralized Insurance
+            </span>
+            <div className="flex items-center justify-center gap-4 text-3xl md:text-4xl lg:text-5xl font-bold text-gray-700">
+              Powered by{" "}
+              <span className="text-bitcoin inline-block hover:scale-105 transition-transform bg-orange-50 px-4 py-2 rounded-lg">
+                sBTC
+              </span>
+            </div>
           </h1>
-          <p className="text-xl text-gray-600 mb-12 max-w-2xl mx-auto">
+          <p className="text-lg md:text-xl text-gray-600 mb-16 max-w-3xl mx-auto leading-relaxed font-medium">
             Secure your digital assets with our innovative insurance protocol. 
             Provide liquidity or get coverage - all powered by Bitcoin&apos;s security.
           </p>

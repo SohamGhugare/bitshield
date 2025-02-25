@@ -9,7 +9,7 @@ export const Navbar = () => (
       <div className="flex items-center gap-6">
         <Link 
           href="/about" 
-          className="text-gray-600 hover:text-bitcoin transition-colors"
+          className="px-4 py-2 rounded-lg text-gray-600 hover:text-bitcoin hover:bg-orange-50 transition-all font-bold"
         >
           About
         </Link>
