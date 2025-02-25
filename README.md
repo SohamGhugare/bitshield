@@ -22,6 +22,11 @@ StackShield allows users to:
 - **Tailwind CSS** - For styling and UI components
 - **Lucide Icons** - For consistent iconography
 
+### Smart Contract Stack
+- **Clarity** - Smart contract language for Stacks blockchain
+- **Stacks Blockchain** - Layer-1 blockchain secured by Bitcoin
+- **sBTC Protocol** - For handling Bitcoin deposits and withdrawals
+
 ### Core Components
 
 #### Capital Provider Portal (`/app/capital-provider`)
