@@ -6,6 +6,7 @@ import { InsuranceConfigurator } from './InsuranceConfigurator';
 import { InsuranceSidebar } from './InsuranceSidebar';
 import { INSURANCE_POLICIES, MOCK_ACTIVE_POLICIES, MOCK_ACTIVITY_LOGS } from '../../constants/insurance';
 import type { InsurancePolicy } from '../../types/insurance';
+import { ClaimsPage } from './pages/ClaimsPage';
 
 export function InsurancePortal() {
   const [activeTab, setActiveTab] = useState<'dashboard' | 'marketplace' | 'claims'>('dashboard');
@@ -55,7 +56,10 @@ export function InsurancePortal() {
             </div>
           </div>
         );
-      // ... other cases
+      case 'claims':
+        return <ClaimsPage />;
+      default:
+        return null;
     }
   };
 

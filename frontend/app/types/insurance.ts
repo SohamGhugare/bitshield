@@ -7,6 +7,7 @@ export interface InsurancePolicy {
   premiumRate: number;
   popularity: number;
   icon: string;
+  currentCoverage?: number;
   isStablecoin?: boolean;
 }
 

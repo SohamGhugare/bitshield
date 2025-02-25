@@ -468,9 +468,159 @@ export function Marketplace() {
         );
       case 'claims':
         return (
-          <div className="p-6">
-            <h2 className="text-2xl font-bold text-gray-900">Claims</h2>
-            {/* Add claims content */}
+          <div className="p-6 space-y-6">
+            {/* Claims Overview Stats */}
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+              <div className="bg-white rounded-xl p-6 shadow-sm">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-gray-500 text-sm">Total Claims</h3>
+                  <AlertCircle className="h-5 w-5 text-bitcoin opacity-50" />
+                </div>
+                <p className="text-2xl font-bold text-gray-900 mt-2">2</p>
+                <span className="text-gray-600 text-sm mt-2 block">
+                  All time
+                </span>
+              </div>
+
+              <div className="bg-white rounded-xl p-6 shadow-sm">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-gray-500 text-sm">Active Claims</h3>
+                  <Activity className="h-5 w-5 text-bitcoin opacity-50" />
+                </div>
+                <p className="text-2xl font-bold text-gray-900 mt-2">1</p>
+                <span className="text-orange-600 text-sm mt-2 block">
+                  In processing
+                </span>
+              </div>
+
+              <div className="bg-white rounded-xl p-6 shadow-sm">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-gray-500 text-sm">Successful Claims</h3>
+                  <Check className="h-5 w-5 text-bitcoin opacity-50" />
+                </div>
+                <p className="text-2xl font-bold text-gray-900 mt-2">1</p>
+                <span className="text-green-600 text-sm mt-2 block">
+                  100% success rate
+                </span>
+              </div>
+
+              <div className="bg-white rounded-xl p-6 shadow-sm">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-gray-500 text-sm">Total Payout</h3>
+                  <DollarSign className="h-5 w-5 text-bitcoin opacity-50" />
+                </div>
+                <p className="text-2xl font-bold text-gray-900 mt-2">1.5 sBTC</p>
+                <span className="text-gray-600 text-sm mt-2 block">
+                  Lifetime payouts
+                </span>
+              </div>
+            </div>
+
+            {/* Claims List */}
+            <div className="bg-white rounded-xl shadow-sm">
+              <div className="p-6 border-b border-gray-200 flex items-center justify-between">
+                <div>
+                  <h2 className="text-xl font-semibold text-gray-900">Claims History</h2>
+                  <p className="text-sm text-gray-600 mt-1">View and manage your insurance claims</p>
+                </div>
+                <button className="px-4 py-2 bg-bitcoin hover:bg-bitcoin-hover text-white rounded-lg transition-colors">
+                  File New Claim
+                </button>
+              </div>
+              
+              <div className="p-6">
+                <div className="space-y-4">
+                  {/* Active Claim */}
+                  <div className="border border-orange-200 bg-orange-50 rounded-lg p-4">
+                    <div className="flex items-start justify-between">
+                      <div className="flex items-center gap-3">
+                        <div className="text-3xl">📝</div>
+                        <div>
+                          <div className="flex items-center gap-2">
+                            <h3 className="font-medium text-gray-900">Smart Contract Exploit Claim</h3>
+                            <span className="px-2.5 py-1 bg-orange-100 text-orange-800 text-xs font-medium rounded-full">
+                              Processing
+                            </span>
+                          </div>
+                          <p className="text-sm text-gray-600 mt-1">Claim Amount: 0.75 sBTC</p>
+                        </div>
+                      </div>
+                      <button className="text-sm text-orange-600 hover:text-orange-700">
+                        View Details
+                      </button>
+                    </div>
+                    <div className="mt-4">
+                      <div className="w-full bg-orange-100 rounded-full h-2">
+                        <div className="bg-orange-500 h-2 rounded-full" style={{ width: '60%' }}></div>
+                      </div>
+                      <div className="flex justify-between mt-2 text-sm text-gray-600">
+                        <span>Claim Filed</span>
+                        <span>Verification</span>
+                        <span>Processing</span>
+                        <span>Completed</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Completed Claim */}
+                  <div className="border border-green-200 bg-green-50 rounded-lg p-4">
+                    <div className="flex items-start justify-between">
+                      <div className="flex items-center gap-3">
+                        <div className="text-3xl">🛡️</div>
+                        <div>
+                          <div className="flex items-center gap-2">
+                            <h3 className="font-medium text-gray-900">Exchange Hack Protection Claim</h3>
+                            <span className="px-2.5 py-1 bg-green-100 text-green-800 text-xs font-medium rounded-full">
+                              Completed
+                            </span>
+                          </div>
+                          <p className="text-sm text-gray-600 mt-1">Claim Amount: 0.75 sBTC</p>
+                        </div>
+                      </div>
+                      <button className="text-sm text-green-600 hover:text-green-700">
+                        View Details
+                      </button>
+                    </div>
+                    <div className="mt-4">
+                      <div className="w-full bg-green-100 rounded-full h-2">
+                        <div className="bg-green-500 h-2 rounded-full w-full"></div>
+                      </div>
+                      <div className="flex justify-between mt-2 text-sm text-gray-600">
+                        <span>Claim Filed</span>
+                        <span>Verification</span>
+                        <span>Processing</span>
+                        <span>Completed</span>
+                      </div>
+                    </div>
+                    <div className="mt-4 p-3 bg-green-100 rounded-lg text-sm text-green-800">
+                      <p className="font-medium">Claim successfully processed</p>
+                      <p className="mt-1">Payout of 0.75 sBTC was processed on July 15, 2023</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Claims FAQ */}
+            <div className="bg-white rounded-xl shadow-sm">
+              <div className="p-6 border-b border-gray-200">
+                <h2 className="text-xl font-semibold text-gray-900">Claims FAQ</h2>
+              </div>
+              <div className="p-6 space-y-4">
+                <div className="space-y-2">
+                  <h3 className="font-medium text-gray-900">How do I file a claim?</h3>
+                  <p className="text-gray-600 text-sm">Click the &quot;File New Claim&quot; button above and follow the guided process. Make sure to have all relevant documentation ready.</p>
+                </div>
+                <div className="space-y-2">
+                  <h3 className="font-medium text-gray-900">How long does processing take?</h3>
+                  <p className="text-gray-600 text-sm">Most claims are processed within 24-48 hours. Complex cases may take up to 5 business days.</p>
+                </div>
+                <div className="space-y-2">
+                  <h3 className="font-medium text-gray-900">What documentation do I need?</h3>
+                  <p className="text-gray-600 text-sm">Required documentation varies by claim type. Common requirements include transaction hashes, wallet addresses, and incident reports.</p>
+                </div>
+              </div>
+            </div>
           </div>
         );
       default:
