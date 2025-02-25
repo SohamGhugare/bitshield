@@ -17,7 +17,6 @@ StackShield allows users to:
 - **TypeScript** - For type-safe code
 - **Tailwind CSS** - For styling and UI components
 - **Lucide Icons** - For consistent iconography
-- **Canvas Confetti** - For celebratory animations
 
 ### Core Components
 

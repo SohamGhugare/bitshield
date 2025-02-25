@@ -1,3 +1,5 @@
+'use client';
+
 import { useState } from 'react';
 import { DashboardStats } from './DashboardStats';
 import { PolicyCard } from './PolicyCard';
@@ -13,8 +15,12 @@ export function InsurancePortal() {
   const [selectedPolicy, setSelectedPolicy] = useState<InsurancePolicy | null>(null);
 
   const handlePurchaseInsurance = (amount: number, duration: number) => {
-    console.log(`Purchasing insurance: ${amount} sBTC for ${duration} months`);
-    // TODO: Implement actual purchase logic
+    console.log('Purchasing insurance:', {
+      policy: selectedPolicy?.name,
+      amount,
+      duration
+    });
+    // Add your purchase logic here
   };
 
   const renderContent = () => {

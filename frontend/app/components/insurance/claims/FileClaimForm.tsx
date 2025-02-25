@@ -3,12 +3,13 @@ import { AlertCircle, Upload, X } from 'lucide-react';
 import type { InsurancePolicy } from '../../../types/insurance';
 
 interface FileClaimFormProps {
-  activePolicies: InsurancePolicy[];
-  onSubmit: (data: ClaimFormData) => void;
+  isOpen: boolean;
   onClose: () => void;
+  onSubmit: (data: ClaimFormData) => void;
+  activePolicies?: InsurancePolicy[];
 }
 
-interface ClaimFormData {
+export interface ClaimFormData {
   policyId: number;
   amount: number;
   description: string;
@@ -16,7 +17,7 @@ interface ClaimFormData {
   incidentDate: string;
 }
 
-export function FileClaimForm({ activePolicies, onSubmit, onClose }: FileClaimFormProps) {
+export function FileClaimForm({ isOpen, onClose, onSubmit, activePolicies = [] }: FileClaimFormProps) {
   const [formData, setFormData] = useState<ClaimFormData>({
     policyId: 0,
     amount: 0,
@@ -24,6 +25,8 @@ export function FileClaimForm({ activePolicies, onSubmit, onClose }: FileClaimFo
     evidenceFiles: [],
     incidentDate: new Date().toISOString().split('T')[0]
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -41,6 +44,19 @@ export function FileClaimForm({ activePolicies, onSubmit, onClose }: FileClaimFo
     }));
   };
 
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    try {
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      onSubmit(formData);
+      setShowSuccess(true);
+      onClose();
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4">
       <div className="bg-white rounded-xl w-full max-w-2xl">
@@ -56,10 +72,7 @@ export function FileClaimForm({ activePolicies, onSubmit, onClose }: FileClaimFo
 
         <form 
           className="p-6 space-y-6"
-          onSubmit={(e) => {
-            e.preventDefault();
-            onSubmit(formData);
-          }}
+          onSubmit={handleSubmit}
         >
           {/* Policy Selection */}
           <div>
@@ -67,7 +80,7 @@ export function FileClaimForm({ activePolicies, onSubmit, onClose }: FileClaimFo
               Select Policy
             </label>
             <select 
-              className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-bitcoin"
+              className="w-full px-3 py-2 border text-gray-400 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-bitcoin"
               value={formData.policyId}
               onChange={(e) => setFormData(prev => ({ ...prev, policyId: Number(e.target.value) }))}
               required
@@ -89,7 +102,7 @@ export function FileClaimForm({ activePolicies, onSubmit, onClose }: FileClaimFo
             <input 
               type="number"
               step="0.000001"
-              className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-bitcoin"
+              className="w-full px-3 py-2 border text-gray-400 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-bitcoin"
               value={formData.amount}
               onChange={(e) => setFormData(prev => ({ ...prev, amount: Number(e.target.value) }))}
               required
@@ -103,7 +116,7 @@ export function FileClaimForm({ activePolicies, onSubmit, onClose }: FileClaimFo
             </label>
             <input 
               type="date"
-              className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-bitcoin"
+              className="w-full px-3 py-2 border text-gray-400 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-bitcoin"
               value={formData.incidentDate}
               onChange={(e) => setFormData(prev => ({ ...prev, incidentDate: e.target.value }))}
               required
@@ -116,7 +129,7 @@ export function FileClaimForm({ activePolicies, onSubmit, onClose }: FileClaimFo
               Incident Description
             </label>
             <textarea 
-              className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-bitcoin h-32"
+              className="w-full px-3 py-2 border text-gray-400 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-bitcoin h-32"
               value={formData.description}
               onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
               required

@@ -12,7 +12,7 @@ export function PoolStats({ totalStaked, totalEarnings, activeStakes, averageAPY
     <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
       <div className="bg-white rounded-xl p-6 shadow-sm">
         <div className="flex items-center justify-between">
-          <h3 className="text-gray-500 text-sm">Total Staked</h3>
+          <h3 className="text-gray-600 text-sm">Total Staked</h3>
           <DollarSign className="h-5 w-5 text-bitcoin opacity-50" />
         </div>
         <p className="text-2xl font-bold text-gray-900 mt-2">{totalStaked} sBTC</p>
@@ -20,7 +20,7 @@ export function PoolStats({ totalStaked, totalEarnings, activeStakes, averageAPY
 
       <div className="bg-white rounded-xl p-6 shadow-sm">
         <div className="flex items-center justify-between">
-          <h3 className="text-gray-500 text-sm">Total Earnings</h3>
+          <h3 className="text-gray-600 text-sm">Total Earnings</h3>
           <TrendingUp className="h-5 w-5 text-bitcoin opacity-50" />
         </div>
         <p className="text-2xl font-bold text-gray-900 mt-2">{totalEarnings} sBTC</p>
@@ -28,7 +28,7 @@ export function PoolStats({ totalStaked, totalEarnings, activeStakes, averageAPY
 
       <div className="bg-white rounded-xl p-6 shadow-sm">
         <div className="flex items-center justify-between">
-          <h3 className="text-gray-500 text-sm">Active Stakes</h3>
+          <h3 className="text-gray-600 text-sm">Active Stakes</h3>
           <Users className="h-5 w-5 text-bitcoin opacity-50" />
         </div>
         <p className="text-2xl font-bold text-gray-900 mt-2">{activeStakes}</p>
@@ -36,7 +36,7 @@ export function PoolStats({ totalStaked, totalEarnings, activeStakes, averageAPY
 
       <div className="bg-white rounded-xl p-6 shadow-sm">
         <div className="flex items-center justify-between">
-          <h3 className="text-gray-500 text-sm">Average APY</h3>
+          <h3 className="text-gray-600 text-sm">Average APY</h3>
           <Percent className="h-5 w-5 text-bitcoin opacity-50" />
         </div>
         <p className="text-2xl font-bold text-gray-900 mt-2">{averageAPY}%</p>

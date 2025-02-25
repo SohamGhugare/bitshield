@@ -2,25 +2,32 @@
 
 import { useState } from 'react';
 import { Shield, Briefcase, Activity, DollarSign, AlertCircle, Search, Check } from 'lucide-react';
+import { SuccessDialog } from './ui/SuccessDialog';
+import { FileClaimForm } from './insurance/claims/FileClaimForm';
 
 interface CoverageOption {
   id: number;
+  name: string;
   title: string;
   description: string;
   coverageAmount: number[];
+  minAmount: number;
+  maxAmount: number;
   riskLevel: 'Low' | 'Medium' | 'Medium-High' | 'High';
   premiumRate: number;
   popularity: number;
   icon: string;
-  isStablecoin?: boolean;
 }
 
 const coverageOptions: CoverageOption[] = [
   {
     id: 1,
+    name: "Exchange Hack Protection",
     title: "Exchange Hack Protection",
     description: "Coverage against loss of funds due to exchange security breaches",
     coverageAmount: [1, 5, 10, 25, 50],
+    minAmount: 1,
+    maxAmount: 50,
     riskLevel: "Medium-High",
     premiumRate: 0.003, // 0.3% monthly
     popularity: 93,
@@ -28,9 +35,12 @@ const coverageOptions: CoverageOption[] = [
   },
   {
     id: 2,
+    name: "Smart Contract Failure",
     title: "Smart Contract Failure",
     description: "Protection against losses from smart contract bugs or exploits",
     coverageAmount: [0.5, 1, 2.5, 5, 10],
+    minAmount: 0.5,
+    maxAmount: 10,
     riskLevel: "High",
     premiumRate: 0.005, // 0.5% monthly
     popularity: 87,
@@ -38,20 +48,25 @@ const coverageOptions: CoverageOption[] = [
   },
   {
     id: 3,
+    name: "Stablecoin Depeg Coverage",
     title: "Stablecoin Depeg Coverage",
     description: "Insurance against stablecoin value loss from depegging events",
     coverageAmount: [1000, 5000, 10000, 25000, 50000],
+    minAmount: 1000,
+    maxAmount: 50000,
     riskLevel: "Medium",
     premiumRate: 0.002, // 0.2% monthly
-    isStablecoin: true,
     popularity: 78,
     icon: "💵"
   },
   {
     id: 4,
+    name: "Wallet Recovery Protection",
     title: "Wallet Recovery Protection",
     description: "Coverage for lost access to your wallet or private keys",
     coverageAmount: [0.5, 1, 2, 5, 10],
+    minAmount: 0.5,
+    maxAmount: 10,
     riskLevel: "Low",
     premiumRate: 0.001, // 0.1% monthly
     popularity: 65,
@@ -64,10 +79,14 @@ export function Marketplace() {
   const [selectedCoverage, setSelectedCoverage] = useState<CoverageOption | null>(null);
   const [coverageAmount, setCoverageAmount] = useState(0);
   const [duration, setDuration] = useState(3);
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [purchaseAmount, setPurchaseAmount] = useState(0);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showClaimForm, setShowClaimForm] = useState(false);
 
   const handleSelectCoverage = (coverage: CoverageOption) => {
     setSelectedCoverage(coverage);
-    setCoverageAmount(coverage.isStablecoin ? 1000 : coverage.coverageAmount[1]);
+    setCoverageAmount(coverage.coverageAmount[1]);
   };
 
   const calculatePremium = () => {
@@ -89,6 +108,21 @@ export function Marketplace() {
     }
   };
 
+  const handlePurchase = async () => {
+    try {
+      // Show loading state
+      setIsSubmitting(true);
+      
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      setPurchaseAmount(coverageAmount);
+      setShowSuccess(true);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   const renderContent = () => {
     switch (activeTab) {
       case 'marketplace':
@@ -106,14 +140,14 @@ export function Marketplace() {
               </div>
               
               <div className="flex space-x-2">
-                <select className="px-4 py-2 border border-gray-200 rounded-lg focus:outline-none">
+                <select className="px-4 py-2 border text-gray-400 border-gray-200 rounded-lg focus:outline-none">
                   <option>All Risks</option>
                   <option>Exchange Risks</option>
                   <option>Smart Contract Risks</option>
                   <option>Wallet Risks</option>
                 </select>
                 
-                <select className="px-4 py-2 border border-gray-200 rounded-lg focus:outline-none">
+                <select className="px-4 py-2 border text-gray-400 border-gray-200 rounded-lg focus:outline-none">
                   <option>Sort by Popularity</option>
                   <option>Sort by Premium (Low to High)</option>
                   <option>Sort by Premium (High to Low)</option>
@@ -149,7 +183,7 @@ export function Marketplace() {
                         <div className="flex flex-wrap items-center gap-4 text-sm">
                           <div className="flex items-center text-gray-900">
                             <DollarSign className="h-4 w-4 mr-1" />
-                            <span>{coverage.isStablecoin ? "USDC" : "sBTC"} Coverage</span>
+                            <span>{coverage.name} Coverage</span>
                           </div>
                           
                           <div className="flex items-center text-gray-900">
@@ -178,14 +212,14 @@ export function Marketplace() {
                       {/* Coverage Amount */}
                       <div>
                         <label className="block text-sm font-medium text-gray-900 mb-2">
-                          Coverage Amount ({selectedCoverage.isStablecoin ? "USDC" : "sBTC"})
+                          Coverage Amount ({selectedCoverage.name})
                         </label>
                         
                         <input 
                           type="range" 
-                          min={selectedCoverage.isStablecoin ? 1000 : 0.5} 
-                          max={selectedCoverage.isStablecoin ? 50000 : 10} 
-                          step={selectedCoverage.isStablecoin ? 1000 : 0.5}
+                          min={selectedCoverage.minAmount} 
+                          max={selectedCoverage.maxAmount} 
+                          step={selectedCoverage.maxAmount - selectedCoverage.minAmount}
                           value={coverageAmount}
                           onChange={(e) => setCoverageAmount(parseFloat(e.target.value))}
                           className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-bitcoin"
@@ -193,13 +227,13 @@ export function Marketplace() {
                         
                         <div className="flex justify-between mt-2">
                           <span className="text-sm text-gray-900">
-                            {selectedCoverage.isStablecoin ? "1,000" : "0.5"}
+                            {selectedCoverage.minAmount}
                           </span>
                           <span className="text-lg font-semibold text-gray-900">
-                            {selectedCoverage.isStablecoin ? coverageAmount.toLocaleString() : coverageAmount}
+                            {coverageAmount}
                           </span>
                           <span className="text-sm text-gray-900">
-                            {selectedCoverage.isStablecoin ? "50,000" : "10"}
+                            {selectedCoverage.maxAmount}
                           </span>
                         </div>
                       </div>
@@ -235,14 +269,14 @@ export function Marketplace() {
                         <div className="flex justify-between items-center">
                           <span className="text-gray-900">Monthly Premium:</span>
                           <span className="font-medium text-gray-900">
-                            {(selectedCoverage.premiumRate * coverageAmount).toFixed(6)} sBTC
+                            {(selectedCoverage.premiumRate * coverageAmount).toFixed(6)} {selectedCoverage.name}
                           </span>
                         </div>
                         
                         <div className="flex justify-between items-center">
                           <span className="text-gray-900">Total Premium:</span>
                           <span className="font-medium text-gray-900">
-                            {calculatePremium()} sBTC
+                            {calculatePremium()} {selectedCoverage.name}
                           </span>
                         </div>
                         
@@ -257,7 +291,7 @@ export function Marketplace() {
                           <div className="flex justify-between items-center text-lg">
                             <span className="font-medium text-gray-900">Total Cost:</span>
                             <span className="font-bold text-bitcoin">
-                              {calculatePremium()} sBTC
+                              {calculatePremium()} {selectedCoverage.name}
                             </span>
                           </div>
                         </div>
@@ -287,8 +321,12 @@ export function Marketplace() {
                         </ul>
                       </div>
                       
-                      <button className="w-full py-3 bg-bitcoin hover:bg-bitcoin-hover text-white font-medium rounded-lg transition-colors flex items-center justify-center">
-                        Purchase Coverage
+                      <button
+                        onClick={handlePurchase}
+                        disabled={isSubmitting}
+                        className="w-full py-3 bg-gradient-to-r from-bitcoin to-bitcoin-hover text-white font-bold rounded-lg transition-colors flex items-center justify-center disabled:opacity-50 "
+                      >
+                        {isSubmitting ? 'Processing...' : 'Purchase Coverage'}
                       </button>
                     </div>
                   ) : (
@@ -305,6 +343,13 @@ export function Marketplace() {
                 </div>
               </div>
             </div>
+
+            <SuccessDialog
+              isOpen={showSuccess}
+              onClose={() => setShowSuccess(false)}
+              title="Coverage Purchased!"
+              message={`Successfully purchased ${purchaseAmount} {selectedCoverage.name} coverage`}
+            />
           </main>
         );
       case 'dashboard':
@@ -317,7 +362,7 @@ export function Marketplace() {
                   <h3 className="text-gray-500 text-sm">Total Coverage</h3>
                   <DollarSign className="h-5 w-5 text-bitcoin opacity-50" />
                 </div>
-                <p className="text-2xl font-bold text-gray-900 mt-2">12.45 sBTC</p>
+                <p className="text-2xl font-bold text-gray-900 mt-2">12.45 {selectedCoverage?.name}</p>
                 <span className="text-green-600 text-sm flex items-center mt-2">
                   <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M12 7l-5 5 1.4 1.4L12 9.8l3.6 3.6L17 12l-5-5z" />
@@ -342,7 +387,7 @@ export function Marketplace() {
                   <h3 className="text-gray-500 text-sm">Monthly Premium</h3>
                   <Activity className="h-5 w-5 text-bitcoin opacity-50" />
                 </div>
-                <p className="text-2xl font-bold text-gray-900 mt-2">0.0145 sBTC</p>
+                <p className="text-2xl font-bold text-gray-900 mt-2">0.0145 {selectedCoverage?.name}</p>
                 <span className="text-gray-600 text-sm mt-2 block">
                   Next payment in 12 days
                 </span>
@@ -374,7 +419,7 @@ export function Marketplace() {
                         <div className="text-3xl">🛡️</div>
                         <div>
                           <h3 className="font-medium text-gray-900">Exchange Hack Protection</h3>
-                          <p className="text-sm text-gray-600">Coverage: 5.00 sBTC</p>
+                          <p className="text-sm text-gray-600">Coverage: 5.00 {selectedCoverage?.name}</p>
                         </div>
                       </div>
                       <span className="px-2.5 py-1 bg-green-100 text-green-800 text-xs font-medium rounded-full">
@@ -382,7 +427,7 @@ export function Marketplace() {
                       </span>
                     </div>
                     <div className="mt-4 flex items-center justify-between text-sm">
-                      <span className="text-gray-600">Premium: 0.005 sBTC/month</span>
+                      <span className="text-gray-600">Premium: 0.005 {selectedCoverage?.name}/month</span>
                       <span className="text-gray-600">Expires in 89 days</span>
                     </div>
                   </div>
@@ -394,7 +439,7 @@ export function Marketplace() {
                         <div className="text-3xl">📝</div>
                         <div>
                           <h3 className="font-medium text-gray-900">Smart Contract Coverage</h3>
-                          <p className="text-sm text-gray-600">Coverage: 2.45 sBTC</p>
+                          <p className="text-sm text-gray-600">Coverage: 2.45 {selectedCoverage?.name}</p>
                         </div>
                       </div>
                       <span className="px-2.5 py-1 bg-green-100 text-green-800 text-xs font-medium rounded-full">
@@ -402,7 +447,7 @@ export function Marketplace() {
                       </span>
                     </div>
                     <div className="mt-4 flex items-center justify-between text-sm">
-                      <span className="text-gray-600">Premium: 0.00735 sBTC/month</span>
+                      <span className="text-gray-600">Premium: 0.00735 {selectedCoverage?.name}/month</span>
                       <span className="text-gray-600">Expires in 152 days</span>
                     </div>
                   </div>
@@ -414,7 +459,7 @@ export function Marketplace() {
                         <div className="text-3xl">🔑</div>
                         <div>
                           <h3 className="font-medium text-gray-900">Wallet Recovery Protection</h3>
-                          <p className="text-sm text-gray-600">Coverage: 5.00 sBTC</p>
+                          <p className="text-sm text-gray-600">Coverage: 5.00 {selectedCoverage?.name}</p>
                         </div>
                       </div>
                       <span className="px-2.5 py-1 bg-green-100 text-green-800 text-xs font-medium rounded-full">
@@ -422,7 +467,7 @@ export function Marketplace() {
                       </span>
                     </div>
                     <div className="mt-4 flex items-center justify-between text-sm">
-                      <span className="text-gray-600">Premium: 0.0025 sBTC/month</span>
+                      <span className="text-gray-600">Premium: 0.0025 {selectedCoverage?.name}/month</span>
                       <span className="text-gray-600">Expires in 243 days</span>
                     </div>
                   </div>
@@ -441,7 +486,7 @@ export function Marketplace() {
                     <div className="w-2 h-2 rounded-full bg-green-500"></div>
                     <div className="flex-1">
                       <p className="text-gray-900">Premium Payment Processed</p>
-                      <p className="text-sm text-gray-600">0.005 sBTC for Exchange Hack Protection</p>
+                      <p className="text-sm text-gray-600">0.005 {selectedCoverage?.name} for Exchange Hack Protection</p>
                     </div>
                     <span className="text-sm text-gray-600">2 days ago</span>
                   </div>
@@ -457,7 +502,7 @@ export function Marketplace() {
                     <div className="w-2 h-2 rounded-full bg-orange-500"></div>
                     <div className="flex-1">
                       <p className="text-gray-900">Coverage Increased</p>
-                      <p className="text-sm text-gray-600">Wallet Recovery Protection increased to 5.00 sBTC</p>
+                      <p className="text-sm text-gray-600">Wallet Recovery Protection increased to 5.00 {selectedCoverage?.name}</p>
                     </div>
                     <span className="text-sm text-gray-600">1 week ago</span>
                   </div>
@@ -509,7 +554,7 @@ export function Marketplace() {
                   <h3 className="text-gray-500 text-sm">Total Payout</h3>
                   <DollarSign className="h-5 w-5 text-bitcoin opacity-50" />
                 </div>
-                <p className="text-2xl font-bold text-gray-900 mt-2">1.5 sBTC</p>
+                <p className="text-2xl font-bold text-gray-900 mt-2">1.5 {selectedCoverage?.name}</p>
                 <span className="text-gray-600 text-sm mt-2 block">
                   Lifetime payouts
                 </span>
@@ -523,7 +568,10 @@ export function Marketplace() {
                   <h2 className="text-xl font-semibold text-gray-900">Claims History</h2>
                   <p className="text-sm text-gray-600 mt-1">View and manage your insurance claims</p>
                 </div>
-                <button className="px-4 py-2 bg-bitcoin hover:bg-bitcoin-hover text-white rounded-lg transition-colors">
+                <button 
+                  onClick={() => setShowClaimForm(true)} 
+                  className="px-4 py-2 bg-bitcoin font-bold hover:bg-bitcoin-hover text-white rounded-lg transition-colors"
+                >
                   File New Claim
                 </button>
               </div>
@@ -542,7 +590,7 @@ export function Marketplace() {
                               Processing
                             </span>
                           </div>
-                          <p className="text-sm text-gray-600 mt-1">Claim Amount: 0.75 sBTC</p>
+                          <p className="text-sm text-gray-600 mt-1">Claim Amount: 0.75 {selectedCoverage?.name}</p>
                         </div>
                       </div>
                       <button className="text-sm text-orange-600 hover:text-orange-700">
@@ -574,7 +622,7 @@ export function Marketplace() {
                               Completed
                             </span>
                           </div>
-                          <p className="text-sm text-gray-600 mt-1">Claim Amount: 0.75 sBTC</p>
+                          <p className="text-sm text-gray-600 mt-1">Claim Amount: 0.75 {selectedCoverage?.name}</p>
                         </div>
                       </div>
                       <button className="text-sm text-green-600 hover:text-green-700">
@@ -594,7 +642,7 @@ export function Marketplace() {
                     </div>
                     <div className="mt-4 p-3 bg-green-100 rounded-lg text-sm text-green-800">
                       <p className="font-medium">Claim successfully processed</p>
-                      <p className="mt-1">Payout of 0.75 sBTC was processed on July 15, 2023</p>
+                      <p className="mt-1">Payout of 0.75 {selectedCoverage?.name} was processed on July 15, 2023</p>
                     </div>
                   </div>
                 </div>
@@ -688,6 +736,16 @@ export function Marketplace() {
         {/* Dynamic Content */}
         {renderContent()}
       </div>
+
+      <FileClaimForm 
+        isOpen={showClaimForm}
+        onClose={() => setShowClaimForm(false)}
+        activePolicies={coverageOptions}
+        onSubmit={(data: ClaimFormData) => {
+          console.log('Claim submitted:', data);
+          setShowClaimForm(false);
+        }}
+      />
     </div>
   );
 } 

@@ -1,8 +1,11 @@
 export interface InsurancePolicy {
   id: number;
+  name: string;
   title: string;
   description: string;
   coverageAmount: number[];
+  minAmount: number;
+  maxAmount: number;
   riskLevel: 'Low' | 'Medium' | 'Medium-High' | 'High';
   premiumRate: number;
   popularity: number;
@@ -25,4 +28,14 @@ export interface ActivityLog {
   timestamp: string;
   status: string;
   statusColor: 'green' | 'blue' | 'orange';
+}
+
+export interface CoverageOption {
+  id: number;
+  name: string;
+  description: string;
+  minAmount: number;
+  maxAmount: number;
+  premiumRate: number;
+  riskLevel: 'Low' | 'Medium' | 'High';
 } 
