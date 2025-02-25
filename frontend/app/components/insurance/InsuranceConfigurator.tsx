@@ -6,5 +6,12 @@ interface InsuranceConfiguratorProps {
 }
 
 export function InsuranceConfigurator({ selectedPolicy, onPurchase }: InsuranceConfiguratorProps) {
-  // Configurator implementation
+  if (!selectedPolicy) return null;
+  
+  return (
+    <div>
+      <h3>{selectedPolicy.title}</h3>
+      <button onClick={() => onPurchase(1, 3)}>Purchase</button>
+    </div>
+  );
 } 

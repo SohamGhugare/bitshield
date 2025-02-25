@@ -12,7 +12,8 @@ export function InsurancePortal() {
   const [selectedPolicy, setSelectedPolicy] = useState<InsurancePolicy | null>(null);
 
   const handlePurchaseInsurance = (amount: number, duration: number) => {
-    // Implementation
+    console.log(`Purchasing insurance: ${amount} sBTC for ${duration} months`);
+    // TODO: Implement actual purchase logic
   };
 
   const renderContent = () => {
@@ -37,7 +38,21 @@ export function InsurancePortal() {
       case 'marketplace':
         return (
           <div className="p-6">
-            {/* Marketplace implementation */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              <div className="lg:col-span-2">
+                {INSURANCE_POLICIES.map(policy => (
+                  <div key={policy.id} onClick={() => setSelectedPolicy(policy)}>
+                    {policy.title}
+                  </div>
+                ))}
+              </div>
+              <div className="lg:col-span-1">
+                <InsuranceConfigurator 
+                  selectedPolicy={selectedPolicy}
+                  onPurchase={handlePurchaseInsurance}
+                />
+              </div>
+            </div>
           </div>
         );
       // ... other cases

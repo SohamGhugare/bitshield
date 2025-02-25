@@ -3,8 +3,19 @@
 import { useState } from 'react';
 import { Shield, Briefcase, Activity, DollarSign, AlertCircle, Search, Check } from 'lucide-react';
 
-// Add the coverageOptions data
-const coverageOptions = [
+interface CoverageOption {
+  id: number;
+  title: string;
+  description: string;
+  coverageAmount: number[];
+  riskLevel: 'Low' | 'Medium' | 'Medium-High' | 'High';
+  premiumRate: number;
+  popularity: number;
+  icon: string;
+  isStablecoin?: boolean;
+}
+
+const coverageOptions: CoverageOption[] = [
   {
     id: 1,
     title: "Exchange Hack Protection",
@@ -50,11 +61,11 @@ const coverageOptions = [
 
 export function Marketplace() {
   const [activeTab, setActiveTab] = useState('dashboard');
-  const [selectedCoverage, setSelectedCoverage] = useState<any>(null);
+  const [selectedCoverage, setSelectedCoverage] = useState<CoverageOption | null>(null);
   const [coverageAmount, setCoverageAmount] = useState(0);
   const [duration, setDuration] = useState(3);
 
-  const handleSelectCoverage = (coverage: any) => {
+  const handleSelectCoverage = (coverage: CoverageOption) => {
     setSelectedCoverage(coverage);
     setCoverageAmount(coverage.isStablecoin ? 1000 : coverage.coverageAmount[1]);
   };
