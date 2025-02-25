@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { AlertCircle, Upload, X } from 'lucide-react';
 import type { InsurancePolicy } from '../../../types/insurance';
+import { SuccessDialog } from '../../ui/SuccessDialog';
 
 interface FileClaimFormProps {
   isOpen: boolean;
@@ -27,6 +28,8 @@ export function FileClaimForm({ isOpen, onClose, onSubmit, activePolicies = [] }
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
+
+  if (!isOpen) return null;
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -58,7 +61,7 @@ export function FileClaimForm({ isOpen, onClose, onSubmit, activePolicies = [] }
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4">
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-xl w-full max-w-2xl">
         <div className="p-6 border-b border-gray-200 flex justify-between items-center">
           <div>
@@ -196,13 +199,21 @@ export function FileClaimForm({ isOpen, onClose, onSubmit, activePolicies = [] }
             </button>
             <button
               type="submit"
-              className="px-4 py-2 bg-bitcoin hover:bg-bitcoin-hover text-white rounded-lg transition-colors"
+              disabled={isSubmitting}
+              className="w-full px-6 py-4 bg-gradient-to-r from-bitcoin to-bitcoin-hover text-white rounded-xl disabled:opacity-50"
             >
-              Submit Claim
+              {isSubmitting ? 'Processing...' : 'Submit Claim'}
             </button>
           </div>
         </form>
       </div>
+
+      <SuccessDialog
+        isOpen={showSuccess}
+        onClose={() => setShowSuccess(false)}
+        title="Claim Submitted!"
+        message="Your claim has been successfully submitted."
+      />
     </div>
   );
 } 

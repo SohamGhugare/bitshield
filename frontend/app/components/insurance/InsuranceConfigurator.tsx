@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { AlertCircle } from 'lucide-react';
-import type { CoverageOption, InsurancePolicy } from '../../types/insurance';
+import type { InsurancePolicy } from '../../types/insurance';
 import { SuccessDialog } from '../ui/SuccessDialog';
 
 interface InsuranceConfiguratorProps {
@@ -11,30 +11,21 @@ interface InsuranceConfiguratorProps {
 }
 
 export function InsuranceConfigurator({ selectedPolicy, onPurchase }: InsuranceConfiguratorProps) {
-  if (!selectedPolicy) return null;
-  
   const [amount, setAmount] = useState<string>('');
   const [duration, setDuration] = useState<number>(30);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
 
+  if (!selectedPolicy) return null;
+  
   const handlePurchase = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!amount || !duration) return;
     
     setIsSubmitting(true);
     try {
-      // Show success immediately
+      onPurchase(parseFloat(amount), duration);
       setShowSuccess(true);
-      
-      // Optional: Log the purchase
-      console.log('Purchase:', {
-        policy: selectedPolicy.name,
-        amount,
-        duration
-      });
-
-      // Reset form
       setAmount('');
       setDuration(30);
     } finally {

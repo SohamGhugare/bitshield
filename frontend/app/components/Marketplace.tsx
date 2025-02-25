@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { Shield, Briefcase, Activity, DollarSign, AlertCircle, Search, Check } from 'lucide-react';
 import { SuccessDialog } from './ui/SuccessDialog';
-import { FileClaimForm } from './insurance/claims/FileClaimForm';
+import { FileClaimForm, type ClaimFormData } from './insurance/claims/FileClaimForm';
 
 interface CoverageOption {
   id: number;
@@ -29,7 +29,7 @@ const coverageOptions: CoverageOption[] = [
     minAmount: 1,
     maxAmount: 50,
     riskLevel: "Medium-High",
-    premiumRate: 0.003, // 0.3% monthly
+    premiumRate: 0.3, // 0.3% annual rate (0.025% monthly)
     popularity: 93,
     icon: "🛡️"
   },
@@ -42,7 +42,7 @@ const coverageOptions: CoverageOption[] = [
     minAmount: 0.5,
     maxAmount: 10,
     riskLevel: "High",
-    premiumRate: 0.005, // 0.5% monthly
+    premiumRate: 0.5, // 0.5% annual rate (0.042% monthly)
     popularity: 87,
     icon: "📝"
   },
@@ -110,12 +110,8 @@ export function Marketplace() {
 
   const handlePurchase = async () => {
     try {
-      // Show loading state
       setIsSubmitting(true);
-      
-      // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 1000));
-      
       setPurchaseAmount(coverageAmount);
       setShowSuccess(true);
     } finally {
@@ -269,14 +265,14 @@ export function Marketplace() {
                         <div className="flex justify-between items-center">
                           <span className="text-gray-900">Monthly Premium:</span>
                           <span className="font-medium text-gray-900">
-                            {(selectedCoverage.premiumRate * coverageAmount).toFixed(6)} {selectedCoverage.name}
+                            {(selectedCoverage.premiumRate * coverageAmount).toFixed(6)} sBTC
                           </span>
                         </div>
                         
                         <div className="flex justify-between items-center">
                           <span className="text-gray-900">Total Premium:</span>
                           <span className="font-medium text-gray-900">
-                            {calculatePremium()} {selectedCoverage.name}
+                            {calculatePremium()} sBTC
                           </span>
                         </div>
                         
@@ -291,7 +287,7 @@ export function Marketplace() {
                           <div className="flex justify-between items-center text-lg">
                             <span className="font-medium text-gray-900">Total Cost:</span>
                             <span className="font-bold text-bitcoin">
-                              {calculatePremium()} {selectedCoverage.name}
+                              {calculatePremium()} sBTC
                             </span>
                           </div>
                         </div>
@@ -348,7 +344,7 @@ export function Marketplace() {
               isOpen={showSuccess}
               onClose={() => setShowSuccess(false)}
               title="Coverage Purchased!"
-              message={`Successfully purchased ${purchaseAmount} {selectedCoverage.name} coverage`}
+              message={`Successfully purchased ${purchaseAmount} sBTC coverage`}
             />
           </main>
         );
@@ -737,15 +733,18 @@ export function Marketplace() {
         {renderContent()}
       </div>
 
-      <FileClaimForm 
-        isOpen={showClaimForm}
-        onClose={() => setShowClaimForm(false)}
-        activePolicies={coverageOptions}
-        onSubmit={(data: ClaimFormData) => {
-          console.log('Claim submitted:', data);
-          setShowClaimForm(false);
-        }}
-      />
+      {/* Only render FileClaimForm when showClaimForm is true */}
+      {showClaimForm && (
+        <FileClaimForm 
+          isOpen={showClaimForm}
+          onClose={() => setShowClaimForm(false)}
+          activePolicies={coverageOptions}
+          onSubmit={(data: ClaimFormData) => {
+            console.log('Claim submitted:', data);
+            setShowClaimForm(false);
+          }}
+        />
+      )}
     </div>
   );
 } 
