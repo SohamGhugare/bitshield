@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "BitShield Insurance",
+  title: "StackShield Insurance",
   description: "Decentralized Insurance on sBTC",
 };
 

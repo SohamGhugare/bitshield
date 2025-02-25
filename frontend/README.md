@@ -1,36 +1,147 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# StackShield Insurance Platform
+
+StackShield is a decentralized insurance platform for Bitcoin, providing coverage against various risks through staking pools.
+
+## Overview
+
+StackShield allows users to:
+- Stake sBTC (Stacked Bitcoin) in various insurance pools
+- Earn APY rewards for providing coverage
+- Get protection against different types of risks
+- Track staking positions and earnings
+
+## Technical Architecture
+
+### Frontend Stack
+- **Next.js 15** - React framework for the application
+- **TypeScript** - For type-safe code
+- **Tailwind CSS** - For styling and UI components
+- **Lucide Icons** - For consistent iconography
+- **Canvas Confetti** - For celebratory animations
+
+### Core Components
+
+#### Capital Provider Portal (`/app/capital-provider`)
+- Main dashboard for staking operations
+- Shows pool statistics and staking opportunities
+- Manages user's staking positions
+
+#### Insurance Pools
+1. **PoolList Component**
+   - Displays available insurance pools
+   - Shows key metrics: Total Staked, APY, Lock Period, Utilization
+   - Risk level indicators
+   - Interactive selection for staking
+
+2. **StakingForm Component**
+   - Handles staking operations
+   - Amount and duration inputs
+   - Real-time returns calculator
+   - Validation and submission handling
+
+3. **MyStakingsModal Component**
+   - Shows user's active and completed stakes
+   - Displays earnings and position details
+   - Status tracking for each position
+
+4. **PoolStats Component**
+   - Platform-wide statistics
+   - Total value locked
+   - Active stakes count
+   - Average APY metrics
+
+### Data Models
+
+```typescript
+// Insurance Pool Structure
+interface InsurancePool {
+  id: number;
+  name: string;
+  description: string;
+  coverageType: string;
+  totalStaked: number;
+  minStake: number;
+  maxStake: number;
+  currentAPY: number;
+  utilizationRate: number;
+  lockupPeriod: number;
+  riskLevel: 'Low' | 'Medium' | 'High';
+  stakersCount: number;
+  totalClaims: number;
+  successfulClaims: number;
+}
+
+// Staking Position Structure
+interface StakingPosition {
+  id: number;
+  poolId: number;
+  poolName: string;
+  amount: number;
+  apy: number;
+  startDate: string;
+  endDate: string;
+  earned: number;
+  status: 'active' | 'locked' | 'completed';
+}
+```
+
+### Wallet Integration
+- Integrated with Stacks wallet for authentication
+- Handles wallet connection/disconnection
+- Manages user session state
+- Secure transaction handling
+
+### UI/UX Features
+- Responsive design for all screen sizes
+- Interactive feedback with success dialogs
+- Confetti animations for successful actions
+- Clean, modern interface with consistent styling
+- Real-time calculations and updates
+
+### State Management
+- React's useState for component-level state
+- Context API for wallet state
+- Props for component communication
+- TypeScript for type safety
 
 ## Getting Started
 
-First, run the development server:
-
+1. Install dependencies:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Run development server:
+```bash
+npm run dev
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. Build for production:
+```bash
+npm run build
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Development Guidelines
 
-## Learn More
+- Follow TypeScript strict mode
+- Use functional components with hooks
+- Maintain consistent error handling
+- Follow Tailwind CSS class ordering
+- Keep components modular and reusable
 
-To learn more about Next.js, take a look at the following resources:
+## Future Enhancements
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Integration with real blockchain data
+- Additional insurance pool types
+- Advanced analytics dashboard
+- Claims processing system
+- Multi-wallet support
+- Enhanced risk assessment tools
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Security Considerations
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Wallet connection validation
+- Input sanitization and validation
+- Secure transaction handling
+- Rate limiting on interactions
+- Error boundary implementation

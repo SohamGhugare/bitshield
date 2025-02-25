@@ -19,7 +19,7 @@ export default function ConnectWallet() {
       <div className="bg-white p-10 rounded-2xl shadow-xl max-w-md w-full text-center">
         <h2 className="text-3xl font-bold text-gray-900 mb-6">Connect Wallet</h2>
         <p className="text-gray-600 mb-8">
-          Connect your wallet to access BitShield&apos;s insurance features.
+          Connect your wallet to access StackShield&apos;s insurance features.
         </p>
         <button
           onClick={connect}

@@ -9,7 +9,7 @@ export function ClientLayout({ children }: { children: React.ReactNode }) {
     <Connect
       authOptions={{
         appDetails: {
-          name: 'BitShield Insurance',
+          name: 'StackShield Insurance',
           icon: '/logo.png',
         },
         redirectTo: '/',

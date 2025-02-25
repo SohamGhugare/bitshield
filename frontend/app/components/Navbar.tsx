@@ -14,7 +14,7 @@ export const Navbar = () => {
         <div className="flex justify-between items-center">
           <Link href="/" className="flex items-center gap-2 text-2xl font-bold text-gray-900">
             <Shield className="h-6 w-6 text-bitcoin" />
-            <span><span className="text-bitcoin">Bit</span>Shield</span>
+            <span><span className="text-bitcoin">Stack</span>Shield</span>
           </Link>
 
           {/* Desktop Menu */}
