@@ -2,6 +2,10 @@
 
 StackShield is a decentralized insurance platform for Bitcoin, providing coverage against various risks through staking pools.
 
+## Directory Structure
+[Frontend](./frontend/) Contains all the website code <br />
+[Contracts](./contracts/) A copy of Clarity contracts that are implemented
+
 ## Overview
 
 StackShield allows users to:
