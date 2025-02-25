@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { WalletButton } from './WalletButton';
 
 export const Navbar = () => (
   <nav className="w-full bg-white border-b border-gray-200">
@@ -13,6 +14,7 @@ export const Navbar = () => (
         >
           About
         </Link>
+        <WalletButton />
       </div>
     </div>
   </nav>

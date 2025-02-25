@@ -35,13 +35,13 @@ export default function Home() {
             title="Insurance Buyer"
             description="Protect your assets with customizable coverage options and instant quotes."
             buttonText="Get Coverage"
-            onClick={() => router.push('/insurance-buyer')}
+            redirectPath="/insurance-buyer"
           />
           <UserTypeCard
             title="Capital Provider"
             description="Earn yields by providing liquidity to insurance pools with flexible staking options."
             buttonText="Provide Capital"
-            onClick={() => router.push('/capital-provider')}
+            redirectPath="/capital-provider"
           />
         </div>
 
