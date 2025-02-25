@@ -5,6 +5,7 @@ const MOCK_STAKING_HISTORY: StakingPosition[] = [
   {
     id: 1,
     poolId: 1,
+    poolName: "Exchange Hack Protection Pool",
     amount: 2.5,
     apy: 8.5,
     startDate: '2024-02-01',
@@ -15,6 +16,7 @@ const MOCK_STAKING_HISTORY: StakingPosition[] = [
   {
     id: 2,
     poolId: 3,
+    poolName: "Exchange Hack Protection Pool",
     amount: 1.0,
     apy: 5.8,
     startDate: '2024-01-15',
