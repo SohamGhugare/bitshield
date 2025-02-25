@@ -1,12 +1,9 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 import { FeatureCard } from './components/FeatureCard';
 import { UserTypeCard } from './components/UserTypeCard';
 
 export default function Home() {
-  const router = useRouter();
-
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="container mx-auto px-4 py-16">
