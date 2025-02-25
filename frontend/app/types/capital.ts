@@ -18,6 +18,7 @@ export interface InsurancePool {
 export interface StakingPosition {
   id: number;
   poolId: number;
+  poolName: string;
   amount: number;
   apy: number;
   startDate: string;

@@ -1,9 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import { AlertCircle } from 'lucide-react';
+import { AlertCircle, History } from 'lucide-react';
 import type { InsurancePool } from '../../types/capital';
 import { SuccessDialog } from '../ui/SuccessDialog';
+import { MyStakingsModal } from './MyStakingsModal';
 
 interface StakingFormProps {
   pool: InsurancePool;
@@ -14,6 +15,7 @@ export function StakingForm({ pool }: StakingFormProps) {
   const [duration, setDuration] = useState<number>(pool.lockupPeriod);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [showStakings, setShowStakings] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -37,7 +39,17 @@ export function StakingForm({ pool }: StakingFormProps) {
   return (
     <>
       <div className="bg-white rounded-xl p-8 shadow-sm h-full border-2 border-gray-100">
-        <h3 className="text-xl font-semibold text-gray-900 mb-6">Stake in Pool</h3>
+        <div className="flex items-center justify-between mb-6">
+          <h3 className="text-xl font-semibold text-gray-900">Stake in Pool</h3>
+          <button
+            type="button"
+            onClick={() => setShowStakings(true)}
+            className="flex items-center gap-2 px-4 py-2 text-bitcoin hover:bg-orange-50 rounded-lg transition-colors"
+          >
+            <History className="h-4 w-4" />
+            <span className="font-medium">My Stakings</span>
+          </button>
+        </div>
         
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-5">
@@ -112,6 +124,11 @@ export function StakingForm({ pool }: StakingFormProps) {
         onClose={() => setShowSuccess(false)}
         title="Staking Successful!"
         message={`Successfully staked ${amount} sBTC for ${duration} days in ${pool.name}`}
+      />
+
+      <MyStakingsModal 
+        isOpen={showStakings}
+        onClose={() => setShowStakings(false)}
       />
     </>
   );
