@@ -3,10 +3,12 @@
 import { useState, useRef, useEffect } from 'react';
 import { useWallet } from './WalletContext';
 import { AlertCircle } from 'lucide-react';
+import { SuccessDialog } from './ui/SuccessDialog';
 
 export const WalletButton = () => {
   const { isConnected, address, connect, disconnect } = useWallet();
   const [showDisconnectModal, setShowDisconnectModal] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
   const modalRef = useRef<HTMLDivElement>(null);
 
   // Close modal when clicking outside
@@ -20,6 +22,11 @@ export const WalletButton = () => {
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
+
+  const handleConnect = async () => {
+    await connect();
+    setShowSuccess(true);
+  };
 
   if (isConnected && address) {
     return (
@@ -74,11 +81,20 @@ export const WalletButton = () => {
   }
 
   return (
-    <button
-      onClick={connect}
-      className="px-4 py-2 rounded-xl bg-orange-50 text-bitcoin hover:bg-orange-100 transition-all font-bold"
-    >
-      Connect Wallet
-    </button>
+    <>
+      <button
+        onClick={handleConnect}
+        className="px-4 py-2 rounded-xl bg-orange-50 text-bitcoin hover:bg-orange-100 transition-all font-bold"
+      >
+        Connect Wallet
+      </button>
+
+      <SuccessDialog
+        isOpen={showSuccess}
+        onClose={() => setShowSuccess(false)}
+        title="Wallet Connected!"
+        message="Your wallet has been successfully connected to BitShield Insurance"
+      />
+    </>
   );
 }; 
