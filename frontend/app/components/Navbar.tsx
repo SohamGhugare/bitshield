@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import { WalletButton } from './WalletButton';
+import { Shield } from 'lucide-react';
 
 export const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -11,8 +12,9 @@ export const Navbar = () => {
     <nav className="w-full bg-white border-b border-gray-200">
       <div className="container mx-auto px-4 py-4">
         <div className="flex justify-between items-center">
-          <Link href="/" className="text-2xl font-bold text-gray-900">
-            <span className="text-bitcoin">Bit</span>Shield
+          <Link href="/" className="flex items-center gap-2 text-2xl font-bold text-gray-900">
+            <Shield className="h-6 w-6 text-bitcoin" />
+            <span><span className="text-bitcoin">Bit</span>Shield</span>
           </Link>
 
           {/* Desktop Menu */}

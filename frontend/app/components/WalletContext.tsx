@@ -15,14 +15,13 @@ export function WalletProvider({ children }: { children: ReactNode }) {
   const [isConnected, setIsConnected] = useState(false);
   const [address, setAddress] = useState<string | null>(null);
 
-  // Mock wallet connection - replace with actual wallet integration
   const connect = async () => {
     try {
-      // Add your wallet connection logic here
-      const mockAddress = '0x1234...5678'; // Replace with actual wallet address
+      const mockAddress = '0x1234...5678';
       setAddress(mockAddress);
       setIsConnected(true);
       localStorage.setItem('walletConnected', 'true');
+      localStorage.setItem('walletAddress', mockAddress);
     } catch (error) {
       console.error('Failed to connect wallet:', error);
     }
@@ -32,13 +31,15 @@ export function WalletProvider({ children }: { children: ReactNode }) {
     setAddress(null);
     setIsConnected(false);
     localStorage.removeItem('walletConnected');
+    localStorage.removeItem('walletAddress');
   };
 
   useEffect(() => {
-    // Check if wallet was previously connected
     const wasConnected = localStorage.getItem('walletConnected') === 'true';
-    if (wasConnected) {
-      connect();
+    const savedAddress = localStorage.getItem('walletAddress');
+    if (wasConnected && savedAddress) {
+      setAddress(savedAddress);
+      setIsConnected(true);
     }
   }, []);
 
