@@ -1,6 +1,7 @@
 'use client';
 
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { AppConfig, UserSession, showConnect } from '@stacks/connect';
 
 interface WalletContextType {
   isConnected: boolean;
@@ -11,34 +12,39 @@ interface WalletContextType {
 
 const WalletContext = createContext<WalletContextType | undefined>(undefined);
 
+const appConfig = new AppConfig(['store_write', 'publish_data']);
+const userSession = new UserSession({ appConfig });
+
 export function WalletProvider({ children }: { children: ReactNode }) {
   const [isConnected, setIsConnected] = useState(false);
   const [address, setAddress] = useState<string | null>(null);
 
   const connect = async () => {
-    try {
-      const mockAddress = '0x1234...5678';
-      setAddress(mockAddress);
-      setIsConnected(true);
-      localStorage.setItem('walletConnected', 'true');
-      localStorage.setItem('walletAddress', mockAddress);
-    } catch (error) {
-      console.error('Failed to connect wallet:', error);
-    }
+    showConnect({
+      appDetails: {
+        name: 'BitShield Insurance',
+        icon: window.location.origin + '/logo.png',
+      },
+      redirectTo: '/',
+      onFinish: () => {
+        const userData = userSession.loadUserData();
+        setAddress(userData.profile.stxAddress.mainnet);
+        setIsConnected(true);
+      },
+      userSession,
+    });
   };
 
   const disconnect = () => {
+    userSession.signUserOut();
     setAddress(null);
     setIsConnected(false);
-    localStorage.removeItem('walletConnected');
-    localStorage.removeItem('walletAddress');
   };
 
   useEffect(() => {
-    const wasConnected = localStorage.getItem('walletConnected') === 'true';
-    const savedAddress = localStorage.getItem('walletAddress');
-    if (wasConnected && savedAddress) {
-      setAddress(savedAddress);
+    if (userSession.isUserSignedIn()) {
+      const userData = userSession.loadUserData();
+      setAddress(userData.profile.stxAddress.mainnet);
       setIsConnected(true);
     }
   }, []);
